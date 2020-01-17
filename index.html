@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" />-->
+    <!-- CSS PAGINE -->
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/profilo.css" />
+    <link rel="stylesheet" type="text/css" href="css/classifica.css" />
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
+    <!-- MATERIALIZE -->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!-- FONT PERSONALIZZATI -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- API MAPBOX -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
+    <title>Mostri Da Tasca</title>
+</head>
+
+<body>
+    <div class="index" id="index">
+        
+        <div id='map' class="map"></div>
+        <div id="profile_div">
+            <a class="btn-floating btn-medium red" onclick="daIndexaProfilo()" id="profile">
+              <i class="large material-icons">person</i>
+            </a>
+        </div>
+        <div id="gps_div">
+            <a class="btn-floating btn-medium red" onclick="riposiziona()" id="userLocation">
+                <i class="large material-icons">gps_fixed</i>
+            </a>
+        </div>
+        <div class="row d-flex h-100 justify-content-center align-items-center" id="rowInfoOgg">
+            <div id="divInfoOgg" class="col-10 d-flex flex-column align-content-stretch">
+                <div class="row row-flex">
+                    <div class="col-5 mx-auto">
+                        <img id="img">
+                    </div>
+                </div>
+                <div class="row row-flex">
+                    <div class="col-12 mx-auto text-center">
+                        <span id="nomeOggetto" class="text-center h4">
+                    </div>
+                </div>
+                <div class="row row-flex">
+                    <div class="col-12 mx-auto text-center">
+                        <span id="grandezzaOggetto" class="text-center h6">
+                    </div>
+                </div>
+                <div class="row row-flex">
+                    <div class="col-12 mx-auto text-center">
+                        <span id="infoOggetto" class="text-center h7">
+                    </div>
+                </div>
+                <div class="row row-flex">
+                    <div class="col-12 mx-auto text-center">
+                        <button type="button" class="btn btn-outline-dark" onclick="togliDivInfoOggetto()"  id="tastoSec">testo</button>
+                        <button type="button" class="btn btn-dark" id="tastoPrim">testo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row d-flex h-100 justify-content-center align-items-center" id="rowRisOgg">
+            <div id="divRisOgg" class="col-11 my-auto d-flex flex-column align-content-stretch">
+                <div class="row">
+                    <div class="col-5 mx-auto">
+                        <img id="img2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mx-auto text-center">
+                        <span id="risultato" class="text-center h4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mx-auto text-center">
+                        <span id="lpDiv" class="text-center h6">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mx-auto text-center">
+                        <span id="xpDiv" class="text-center h6">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mx-auto text-center">
+                        <button type="button" class="btn btn-dark" id="tastoChiudi" onclick="chiudiRis()">Ok !</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profilo" id="profilo">
+        <div class="col-xs-12 col-sm-6" id="divProfilo">
+            <div class="row" id="bottoniInAlto">
+                <div class="text-center">
+                    <div class="back_div">
+                        <a onclick='saveChanges("index")' class="btn-floating btn-medium red" class="back" >
+                            <i class="large material-icons">arrow_back</i>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5 mx-auto">
+                    <img id="img">
+                </div>
+            </div>
+            <div class="row">
+                <div class="mx-auto" id="changeImage" onclick="apriLibreria()">
+                    Cambia immagine
+                </div>
+            </div>
+            <div class="row">
+                <div class="mx-auto"><input type="text" placeholder="Username" id="username"></div>
+            </div>
+            <div class="row">
+                <div class="mx-auto"><p id="exp">XP</p></div>
+            </div>
+            <div class="row">
+                <div class="mx-auto"><p id="life">LP</p></div>
+            </div>
+            <div class="row">
+                <div class="mx-auto">
+                    <div id="ranking_button_div">
+                        <a onclick='saveChanges("classifica")' class="waves-effect red btn" id="rankingButton" >CLASSIFICA
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUESTA È LA CLASSIFICA NEL CASO IN CUI IO AVESSI UN TABLET -->
+        <!-- È MIGLIORABILE, C'È DELLA RIDONDANZA -->
+        <div class="col-xs-12 col-sm-6" id="divClassifica">
+            <div class="classifica">
+                <div class="row">
+                    <div class="back_div" id="backClassifica">
+                        <a class="btn-floating btn-medium red" onclick='saveChanges("index")' class="back"> <!-- qui manca un onclick -->
+                            <i class="large material-icons">arrow_back</i>
+                        </a>
+                    </div>
+                    <div class="mx-auto" id="titolo">
+                        <p class="h1 text-center">
+                            Classifica
+                        </p>
+                    </div>
+                </div>
+                <div id="listaUtenti">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="classifica" id="classifica">
+        <div class="row">
+            <div id="back_div">
+                <a class="btn-floating btn-medium red" onclick="daClassificaaProfilo()" id="back">
+                    <i class="large material-icons">arrow_back</i>
+                </a>
+            </div>
+            <div class="mx-auto" id="titolo">
+                <p class="h1 text-center">
+                    Classifica
+                </p>
+            </div>
+        </div>
+        <div id="listaUtenti">
+           
+        </div>
+    </div>
+
+    <!-- SCRIPT FINALI -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/Oggetto.js"></script>
+    <script type="text/javascript" src="js/OggettoModel.js"></script>
+    <script type="text/javascript" src="js/User.js"></script>
+    <script type="text/javascript" src="js/UserModel.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        play.initialize();
+    </script>
+</body>
+
+</html>
